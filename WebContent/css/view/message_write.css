@@ -24,15 +24,26 @@ div
 	vertical-align: super;
 	font-size: 18px;
 }
-
+.form-control
+{
+	resize: none;
+}
 #err
 {
 	color: red;
 	display: none;
 	font-weight: bold;
 }
-
-.resize
+textarea
+{ 	resize:none; 
+	max-width:400px;
+	min-width:200px; 
+}
+button 
+{
+	margin-left: 5%;
+}
+#noteContent
 {
 	resize: none;
 }

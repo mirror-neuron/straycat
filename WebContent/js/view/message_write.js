@@ -1,18 +1,16 @@
 $(document).ready(function()
 {
-	// 쪽지 내용을 최대 9,000 자까지 입력할 수 있도록 제한하는 function
-	// 9,000 자를 초과 입력하면 9,000 번째 글자까지 입력됨
+	
+	// 쪽지 내용 최대 9000자까지 입력할 수 있도록 제한하는 function
+	// 9000 자를 초과 입력하면 9000 번째 글자까지 입력됨
 	$("#noteContent").keyup(function() {
-		if ($("#noteContent").val().length >= 9000)
-		{
-			$("#textCounter").css("color", "red");
+		if ($("#noteContent").val().length >= 9000) {
+			$("#counter").css("color", "red");
 			var str = $("#noteContent").val();
 			str = str.substring(0, 9000);
 			$("#noteContent").val(str);
-		}
-		else
-		{
-			$("#textCounter").css("color", "black");
+		} else {
+			$("#counter").css("color", "black");
 			var textCnt = $("#noteContent").val().length;
 			$("#counter").text(textCnt);
 		}
