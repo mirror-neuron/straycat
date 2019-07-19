@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.straycat.common.dao.AdoptDAO;
 import com.straycat.service.AdoptService;
@@ -44,6 +45,25 @@ public class AdoptServiceImpl implements AdoptService
 		try
 		{
 			list = dao.listAdopt(searchGu, searchDong);
+
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+	
+	
+	// 키워드 검색 후 리스트 출력하는 메소드 
+	@Override
+	public List<Map<String, Object>> searchAdopt(String searchKey, String searchValue)
+	{
+		List<Map<String,Object>> list = null;
+		
+		try
+		{
+			list = dao.searchAdopt(searchKey, searchValue);
 
 		} catch (Exception e)
 		{
@@ -251,7 +271,9 @@ public class AdoptServiceImpl implements AdoptService
 			param.put("ADT_TYPE", (String) param.get("adt_type"));
 			param.put("CAT_ECT1", (String) param.get("cat_ect1"));
 			param.put("CAT_ECT2", (String) param.get("cat_ect2"));
+			
 			param.put("CAT_REP_IMG", (String) param.get("cat_rep_img"));
+			
 			param.put("TEL", (String) param.get("tel"));
 			param.put("EMAIL", (String) param.get("email"));
 			param.put("ADT_REASON", (String) param.get("adt_reason"));
@@ -349,6 +371,7 @@ public class AdoptServiceImpl implements AdoptService
 		
 		try
 		{
+			// 입양신청 후보자 리스트 정보 가져오기
 			list = dao.listApply(adt_code);
 
 		} catch (Exception e)

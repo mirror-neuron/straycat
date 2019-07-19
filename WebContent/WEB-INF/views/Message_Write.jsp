@@ -24,7 +24,8 @@
 		<div class="row">
 			<div class="col-2">받는사람<span class="required">*</span></div>
 			<div class="col-10">
-				<input type="text" class="form-control" id="receive" name="receive">
+				<%-- <input type="text" class="form-control" id="receive" name="receive" value="${id2 }"> --%>
+				<input type="text" class="form-control" id="receive" name="receive" value="${id2 }">
 			</div>
 		</div>
 		<br>
@@ -32,7 +33,7 @@
 		<div class="row">
 			<div class="col-2">제목<span class="required">*</span></div>
 			<div class="col-10">
-				<input type="text" class="form-control" id="tile" name="title">
+				<input type="text" class="form-control" id="title" name="title">
 			</div>
 		</div>
 		<br>
@@ -61,7 +62,7 @@
 			<div class="col-2"></div>
 			<div class="col-10">
 					<button type="button" class="btn btn-primary" id="sendBtn">보내기</button>
-					<button type="button" class='btn btn-secondary'>취소</button>
+					<button type="button" class='btn btn-secondary' onclick="location.href='mypage'">취소</button>
 			</div>
 		</div>
 	</form>

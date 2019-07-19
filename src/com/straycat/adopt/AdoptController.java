@@ -70,7 +70,38 @@ public class AdoptController
 		
 		return "Adopt_List";
 	}
+	
+	
+	// 입양게시판 리스트 조회
+	@RequestMapping(value = "/adopt_search", method = RequestMethod.GET)
+	public String searchList(Model model, @RequestParam(name = "searchKey", defaultValue = "") String searchKey,
+			@RequestParam(name = "searchValue", defaultValue = "") String searchValue, HttpServletRequest request)
+	{
+		List<Map<String, Object>> list = null;
+		int dataCount = 0;
+
+		try
+		{
+			// 검색 결과 리스트
+			list = service.searchAdopt(searchKey, searchValue);
+			model.addAttribute("list", list);
 			
+			// 선택된 키워드로 검색된 데이터가 몇 개인지 계산
+			dataCount = service.dataCount(searchKey, searchValue);
+			model.addAttribute("dataCount", dataCount);
+			
+			// 셀렉트박스안의 구 리스트를 불러옴
+			List<Map<String, Object>> gu = service.listGu();
+			model.addAttribute("gu", gu);
+			
+
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+
+		return "Adopt_List";
+	}
 	
 	// 입양등록 버튼 클릭시 입양게시글 등록페이지로 이동
 	@RequestMapping(value = "/adopt_form", method = RequestMethod.GET)
@@ -176,7 +207,7 @@ public class AdoptController
 		return entity;
 	}
 	 
-	// 입양 상태 변경 
+	// 입양 상태 변경 (게시글 열람페이지 내)
 	@RequestMapping(value = "/adopt_proc", method = RequestMethod.GET) 
 	public String changeStatus(@RequestParam String adt_proc
 							 , @RequestParam String adt_code
@@ -193,9 +224,11 @@ public class AdoptController
 		{
 			e.printStackTrace();
 		}
-		 
+		
+		//return "redirect:/adopt/apply_list?adt_code="+adt_code;		//-- 입양신청후보자 리스트 페이지로 이동
 		return "redirect:/adopt_read?adt_code="+adt_code;
 	} 
+	
 	
 	// 게시글 수정 버튼 클릭시 입양게시글 수정페이지로 이동
 	@RequestMapping(value = "/adopt_update_form", method = RequestMethod.GET)
@@ -219,6 +252,7 @@ public class AdoptController
 			List<Map<String, Object>> gu = service.listGu();
 			model.addAttribute("gu", gu);
 			
+			
 		} catch (Exception e)
 		{
 			e.printStackTrace();
@@ -232,12 +266,20 @@ public class AdoptController
 	@RequestMapping(value = "/adopt_update", method = RequestMethod.POST)
 	public String adoptUpdate(@RequestParam Map<String, Object> param
 							, @RequestParam String adt_code
-							, HttpServletRequest request)
+							, HttpServletRequest request
+							, HttpSession session
+							, MultipartFile file)
 	{
 		adt_code = request.getParameter("adt_code");
 		
 		try
 		{
+			// 이미지를 저장하고 저장된 이미지 경로를 반환함
+			// 이미지 경로를 자료구조(고양이 등록정보)에 넣음
+			String path = session.getServletContext().getRealPath("/");
+			String imageUrl = imageService.saveImage(file, path);
+			param.put("CAT_REP_IMG", imageUrl);
+
 			service.updateAdopt(param);
 			
 		} catch (Exception e)
@@ -324,6 +366,7 @@ public class AdoptController
 		Map<String, Object> user = null;
 		String adt_code = ""; 
 		List<Map<String, Object>> list = null; 
+		Map<String, Object> post = null;
 		
 		try
 		{
@@ -342,6 +385,11 @@ public class AdoptController
 			//입양신청한 후보자 리스트 값 넘기기
 			list = service.listApply(adt_code);
 			model.addAttribute("list", list);
+			
+			// 입양 모집글 정보 받아서 넘김
+			post = service.readAdopt(adt_code);
+			model.addAttribute("post", post);
+			
 			
 		} catch (Exception e)
 		{

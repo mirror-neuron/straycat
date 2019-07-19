@@ -196,10 +196,11 @@
 			
 				<!-- 고양이 대표사진 -->
 				<div class="iconic-photo col-lg-3">
-					<img src="<%=cp %>/img/cat_profile_picture.jpg" class="img-thumbnail">
+					<%-- <img src="<%=cp %>/img/cat_profile_picture.jpg" class="img-thumbnail"> --%>
 					
 					<!-- 사진 불러오는 구문 -->
-					<%-- <img src="<%=cp %>/img/${post.CAT_IMAGE}" class="img-thumbnail"> --%>
+					<!-- C:\GIT\SSIT_StrayCatProject\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\straycat\resource -->
+					<img src="<%=cp %>${post.CAT_IMAGE}" class="img_resize" style="width: 300px; height:300px% ">
 				</div>
 				
 				<!-- 글 내용 -->
@@ -271,7 +272,9 @@
 				<div class="slidemenu col-lg-2 text-center">
 					<div class="apply">
 						<h5 class="">현재 신청자 수:<span> ${post.APP_COUNT } </span>명</h5>
-						<p>남은시간 : <span>13일 00:57:30</span></p>
+						<!-- 마감일자(hidden) -->
+						<input type="hidden" id="endDate" value="${post.END_DATE }">
+						<p>남은시간 : <br><span id="leftDate"></span></p>
 						<input type="button" class="btn btn-primary disabled" value="입양신청">
 						<p style="font-size: 10pt;">로그인 후 입양 신청이<br> 가능합니다.</p>
 					</div>
@@ -279,24 +282,14 @@
 				</c:if>
 				
 				
-				<!-- 우측 사이드바 (입양신청 - 일반사용자)-->
-				<c:if test="${sessionScope.user_id ne null}">
-				<div class="slidemenu col-lg-2 text-center">
-					<div class="apply">
-						<h5 class="">현재 신청자 수:<span> ${post.APP_COUNT } </span>명</h5>
-						<p>남은시간 : <span>13일 00:57:30</span></p>
-						<input type="button" class="btn btn-primary" value="입양신청"
-						onclick="location.href='<%=cp%>/adopt/apply_form?adt_code=${post.ADT_CODE }'">
-					</div>
-				</div>
-				</c:if>
-				
 				<!-- 우측 사이드바 (입양신청 - 게시글작성자)-->
 				<c:if test="${sessionScope.user_id ne null && sessionScope.user_id eq post.USER_ID }">
 					<div class="slidemenu col-lg-2 text-center">
 						<div class="apply">
 							<h5 class="">현재 신청자 수:<span> ${post.APP_COUNT } </span>명</h5>
-							<p>남은시간 : <span>13일 00:57:30</span></p>
+							<!-- 마감일자(hidden) -->
+							<input type="hidden" id="endDate" value="${post.END_DATE }">
+							<p>남은시간 : <br><span id="leftDate"></span></p>
 							<input type="button" class="btn btn-success" value="입양 신청자 확인"
 							onclick="location.href='<%=cp%>/adopt/apply_list?adt_code=${post.ADT_CODE }'">
 						</div>
@@ -310,6 +303,8 @@
 				<div class="slidemenu col-lg-2 text-center">
 					<div class="apply">
 						<h5 class="">현재 신청자 수:<span> ${post.APP_COUNT } </span>명</h5>
+						<!-- 마감일자(hidden) -->
+						<input type="hidden" id="endDate" value="${post.END_DATE }">
 						<p class="deadline">남은시간 : <span>13일 00:57:30</span></p>
 						<button class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" disabled="disabled"
 						title="2019.06.20 18:20:39에 이미 신청하셨습니다">신청하기</button>
@@ -317,6 +312,21 @@
 				</div>
 				</c:if>
 				</c:forEach>
+				
+				<!-- 우측 사이드바 (입양신청 - 일반사용자)-->
+				<c:if test="${sessionScope.user_id ne null && sessionScope.user_id ne post.USER_ID }">
+				<div class="slidemenu col-lg-2 text-center">
+					<div class="apply">
+						<h5 class="">현재 신청자 수:<span> ${post.APP_COUNT } </span>명</h5>
+						<!-- 마감일자(hidden) -->
+						<input type="hidden" id="endDate" value="${post.END_DATE }">
+						<p>남은시간 : <br><span id="leftDate"></span></p>
+						<input type="button" class="btn btn-primary" value="입양신청"
+						onclick="location.href='<%=cp%>/adopt/apply_form?adt_code=${post.ADT_CODE }'">
+					</div>
+				</div>
+				</c:if>
+				
 				
 				
 		</div>
@@ -394,20 +404,14 @@
 		</form>
 		</div>
 		
-		
-		
-		
-		
-		
-		
 	</section>
 	
 	
-</div> <!-- end #content  -->
+	
 		
 		
 		
-	<section class="post-view-bottom continer-fluid">	
+	<section class="post-view-bottom container">	
 
 		<!-- ★★★★★ 이전글 / 다음글 ★★★★★★ -->
 		<div class="beforeafter list-group">
@@ -465,8 +469,8 @@
 									</h6>
 								<!-- </div> -->
 							</div>
-							<p>정말 많은 사람들이 고생하셨습니다..ㅜ.ㅜ 정부에서는 크게 도와주는게 없으니
-								동물보호단체에서라도 꾸준히 이후에도 관리를 해주셨으면 하는 바람입니다..ㅜ.ㅜ 정말 없어져서 기쁩니다!!</p>
+							<p>어머나 ㅠㅠ 야옹이가 너무 귀여워요ㅠㅜ 제가 입양하고 싶지만 이미 키우고 있는 냥이가 6마리나 되서ㅜㅜ 
+							부디 좋은 분 만나서 입양 갔으면 좋겠네요~!!!</p>
 						</div>
 					</div><!-- end comment -->
 
@@ -485,8 +489,8 @@
 									</h6>
 								<!-- </div> -->
 							</div>
-							<p>야옹이 너무이쁘네요 ㅠㅠ 어쩌다 잃어버리셨을까.. ㅠㅠ 저희동네인데 
-							주위 잘 둘러보고 다녀야겠어요 ㅠㅠ </p>
+							<p>이 길냥이 지나가다가 저도 봤는데 ㅠㅠ 어미가 새끼낳고 며칠을 봐도 돌아오질 않더라구요.. 아마 무슨 사고가 난 듯 해요ㅜㅜ 
+							아기들 너무 이쁘고 귀여워요. 꼭 좋은 분 만나서 입양갔으면 좋겠네요^^ </p>
 						</div>
 					</div><!-- end comment -->
 
@@ -504,4 +508,3 @@
 	
 </body>
 </html>
-

@@ -16,17 +16,23 @@ $(document).ready(function()
 		}
 	});
 
-	// 필수 입력 사항 확인
-	$("#sendBtn").click(function() 
+	$("#err").css("display", "none");
+	// 보내기 버튼 클릭
+	$("#sendBtn").click(function()
 	{
-		$("#err").css("display", "none");
-		if ($("#receive").val()=="" || $("#receive").val()==null || $("#tile").val()=="" || $("#tile").val()==null || $("#noteContent").val()=="" || $("#noteContent").val()==null)
+		// 받는사람, 제목, 쪽지내용 입력 여부 확인
+		if ($("#receive").val()=="" || $("#receive").val()==null 
+			|| $("#title").val()=="" || $("#title").val()==null 
+			||  $("#noteContent").val()=="" || $("#noteContent").val()==null) 
 		{
-			$("#err").css("display", "block");
+			$("#err").css("display", "inline");
+			$("#err").css("color", "red");
 			return;
-		}
+		};
 		
 		$("#messageForm").submit();
 	});
+	
+	
 	
 });
