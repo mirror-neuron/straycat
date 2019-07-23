@@ -93,6 +93,10 @@ span {
 {
 	width: 1500px;
 }
+.nav-link
+{
+	width: 50%;
+}
 div.Table {
     border: 1px solid #E5E5E5;
     background-color: #FFFFFF;
@@ -103,7 +107,7 @@ div.Table {
 }
 div.col
 {
-	width: 80%;
+	width: 100%;
 }
 
 .divTable.Table .divTableCell, .divTable.Tavle .divTableHead
